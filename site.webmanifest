@@ -1,0 +1,30 @@
+{
+  "name": "TamoAI Cloud OS — Fuse, Pots & Gawk Bot",
+  "short_name": "TamoAI",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#6366f1",
+  "icons": [
+    {
+      "src": "favicons/tamoai.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "favicons/fuse.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "favicons/pots.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "favicons/gawk.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}

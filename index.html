@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+  <title>TamoAI Cloud OS — Parent Platform for Fuse, Pots &amp; Gawk Bot</title>
+  <meta name="description" content="TamoAI unifies always-on cloud AI agents running on dedicated virtual cloud computers: Fuse (Meta Muse clone), Pots (OpenAI Dots clone), and Gawk Bot (xAI Grok Bot clone)." />
+  <meta name="theme-color" content="#0f172a" />
+  <link id="dynamic-favicon" rel="icon" type="image/svg+xml" href="favicons/tamoai.svg" />
+  <link id="dynamic-apple-icon" rel="apple-touch-icon" href="favicons/tamoai.svg" />
+  <link rel="manifest" href="site.webmanifest" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen selection:bg-indigo-500 selection:text-white">
+
+  <!-- Floating Toast Container -->
+  <div id="toast-container" class="fixed bottom-4 right-4 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+  <!-- Top Parent Platform Navigation Bar (TamoAI Cloud OS) -->
+  <header class="sticky top-0 z-40 bg-slate-950/90 backdrop-blur-xl border-b border-slate-800/80">
+    <div class="max-w-[1440px] mx-auto px-3 sm:px-6 h-16 flex items-center justify-between gap-2">
+      <!-- Brand & Active Favicon Indicator -->
+      <div class="flex items-center gap-3 min-w-0">
+        <button type="button" data-platform-btn="hub" class="flex items-center gap-2.5 text-left group focus:outline-none">
+          <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 p-0.5 shrink-0 shadow-lg shadow-indigo-500/20">
+            <div class="w-full h-full bg-slate-950 rounded-[10px] flex items-center justify-center font-extrabold text-sm bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-pink-400">
+              T
+            </div>
+          </div>
+          <div class="truncate">
+            <div class="flex items-center gap-1.5">
+              <span class="font-extrabold text-sm sm:text-base tracking-tight text-white">TamoAI</span>
+              <span class="text-[10px] font-mono-code px-1.5 py-0.5 rounded bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">Cloud OS v2.6</span>
+            </div>
+            <p id="active-favicon-indicator" class="text-[10px] text-slate-400 truncate">TamoAI Parent Favicon Active</p>
+          </div>
+        </button>
+      </div>
+
+      <!-- Desktop Agent Switcher Tabs -->
+      <nav class="hidden md:flex items-center gap-1.5 bg-slate-900/90 p-1 rounded-xl border border-slate-800" aria-label="Agent Suite Navigation">
+        <button type="button" data-platform-btn="hub" class="px-3 py-1.5 rounded-lg text-xs font-semibold transition flex items-center gap-1.5">
+          <span class="w-2 h-2 rounded-full bg-indigo-400"></span>
+          <span>TamoAI Parent Hub</span>
+        </button>
+        <button type="button" data-platform-btn="fuse" class="px-3 py-1.5 rounded-lg text-xs font-semibold transition flex items-center gap-1.5">
+          <span class="w-2 h-2 rounded-full bg-pink-400"></span>
+          <span>Fuse</span>
+          <span class="text-[10px] opacity-75 hidden lg:inline">(Muse Clone)</span>
+        </button>
+        <button type="button" data-platform-btn="pots" class="px-3 py-1.5 rounded-lg text-xs font-semibold transition flex items-center gap-1.5">
+          <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+          <span>Pots</span>
+          <span class="text-[10px] opacity-75 hidden lg:inline">(Dots Clone)</span>
+        </button>
+        <button type="button" data-platform-btn="gawk" class="px-3 py-1.5 rounded-lg text-xs font-semibold transition flex items-center gap-1.5">
+          <span class="w-2 h-2 rounded-full bg-green-400"></span>
+          <span>Gawk Bot</span>
+          <span class="text-[10px] opacity-75 hidden lg:inline">(Grok Bot Clone)</span>
+        </button>
+      </nav>
+
+      <!-- Global Cloud Status & Mobile Drawer Toggle -->
+      <div class="flex items-center gap-2">
+        <div class="hidden sm:flex items-center gap-2 px-2.5 py-1 rounded-full bg-slate-900 border border-slate-800 text-[11px] text-slate-300">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+          <span>3 Cloud VMs Online (24/7)</span>
+        </div>
+        <button type="button" id="mobile-menu-toggle-btn" class="md:hidden p-2 rounded-lg bg-slate-900 border border-slate-800 text-slate-200 hover:bg-slate-800" aria-label="Toggle Menu">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Responsive Navigation Drawer -->
+    <div id="mobile-nav-drawer" class="hidden md:hidden border-t border-slate-800 bg-slate-950 px-4 py-3 space-y-2">
+      <div class="grid grid-cols-2 gap-2">
+        <button type="button" data-platform-btn="hub" class="p-2.5 rounded-xl text-xs font-semibold border border-slate-800 flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-indigo-400"></span> TamoAI Hub
+        </button>
+        <button type="button" data-platform-btn="fuse" class="p-2.5 rounded-xl text-xs font-semibold border border-slate-800 flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-pink-400"></span> Fuse (Muse)
+        </button>
+        <button type="button" data-platform-btn="pots" class="p-2.5 rounded-xl text-xs font-semibold border border-slate-800 flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-emerald-400"></span> Pots (Dots)
+        </button>
+        <button type="button" data-platform-btn="gawk" class="p-2.5 rounded-xl text-xs font-semibold border border-slate-800 flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-green-400"></span> Gawk Bot
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Container -->
+  <main class="max-w-[1440px] mx-auto px-3 sm:px-6 py-5 sm:py-8">
+
+    <!-- =================================================================== -->
+    <!-- VIEW 0: TAMOAI PARENT PLATFORM HUB                                  -->
+    <!-- =================================================================== -->
+    <section id="view-hub" class="space-y-8 view-transition">
+      <!-- Hero Banner -->
+      <div class="relative rounded-3xl overflow-hidden border border-slate-800 bg-gradient-to-br from-slate-900 via-slate-950 to-indigo-950/60 p-6 sm:p-10 shadow-2xl">
+        <div class="max-w-3xl space-y-4">
+          <div class="inline-flex flex-wrap items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/15 border border-indigo-500/30 text-indigo-300 text-xs font-medium">
+            <span>TamoAI Unified Cloud Computer Platform</span>
+            <span>•</span>
+            <span>Always-On Virtual Machines</span>
+          </div>
+          <h1 class="text-2xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white leading-tight">
+            Three Frontier Cloud AI Agents. <span class="bg-clip-text text-transparent bg-gradient-to-r from-sky-400 via-purple-400 to-pink-400">One Parent Platform.</span>
+          </h1>
+          <p class="text-sm sm:text-base text-slate-300 leading-relaxed">
+            Run persistent, 24/7 AI agents that operate on dedicated cloud Linux virtual machines rather than your local PC. Switch seamlessly between <strong>Fuse</strong> (personal errands &amp; shared live browser), <strong>Pots</strong> (enterprise multi-channel work agents on Tamo-6 Astra), and <strong>Gawk Bot</strong> (always-on computer-use AI teammates).
+          </p>
+          <div class="flex flex-wrap gap-3 pt-2">
+            <button type="button" data-platform-btn="fuse" class="px-4 py-2.5 rounded-xl fuse-gradient text-white font-semibold text-xs sm:text-sm shadow-lg hover:opacity-95 transition">
+              Launch Fuse (Muse Clone) →
+            </button>
+            <button type="button" data-platform-btn="pots" class="px-4 py-2.5 rounded-xl pots-gradient text-white font-semibold text-xs sm:text-sm shadow-lg hover:opacity-95 transition">
+              Launch Pots (Dots Clone) →
+            </button>
+            <button type="button" data-platform-btn="gawk" class="px-4 py-2.5 rounded-xl bg-green-500 hover:bg-green-400 text-zinc-950 font-mono-code font-bold text-xs sm:text-sm shadow-lg transition">
+              Launch Gawk Bot (Grok Bot Clone) →
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Three Flagship Agent Clone Cards -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-5">
+        <!-- Card 1: FUSE -->
+        <div class="rounded-2xl bg-slate-900/90 border border-purple-500/30 p-5 flex flex-col justify-between gap-4 hover:border-pink-500/60 transition shadow-xl">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between gap-2">
+              <div class="flex items-center gap-2.5">
+                <div class="w-10 h-10 rounded-2xl fuse-gradient flex items-center justify-center font-black text-white text-lg shadow">F</div>
+                <div>
+                  <h2 class="text-base font-bold text-white">Fuse <span class="text-xs font-normal text-pink-300">(Meta Muse Clone)</span></h2>
+                  <p class="text-[11px] text-slate-400">Powered by Fuse Spark • Fuse Secure VM</p>
+                </div>
+              </div>
+              <span class="text-[10px] font-mono-code px-2 py-0.5 rounded-full bg-pink-500/20 text-pink-300 border border-pink-500/30">8GB Linux VM</span>
+            </div>
+            <p class="text-xs text-slate-300 leading-relaxed">
+              Personal AI agent built for long-running errands, travel bookings, forms, and shopping. Features a shared cloud browser you can watch and intervene in, <strong>Sentinel</strong> read/write permissions, <strong>Realtime Avatar</strong> video calls, custom tool synthesis, dedicated agent email, and the palm-sized <strong>Fuse Charm</strong> wearable companion.
+            </p>
+            <ul class="space-y-1.5 text-xs text-slate-300">
+              <li class="flex items-center gap-2"><span class="text-pink-400">●</span> <strong>Fuse Secure VM:</strong> Isolated Ubuntu VM + Shared Live Browser</li>
+              <li class="flex items-center gap-2"><span class="text-pink-400">●</span> <strong>Sentinel Governance:</strong> Granular Read / Write / Ask First controls</li>
+              <li class="flex items-center gap-2"><span class="text-pink-400">●</span> <strong>Agent Inbox &amp; Commerce:</strong> Shopify, Expedia, Stripe, Best Buy</li>
+              <li class="flex items-center gap-2"><span class="text-pink-400">●</span> <strong>Plans:</strong> Free Tier, $20/mo Pro, $100/mo Ultra (Zero Ads)</li>
+            </ul>
+          </div>
+          <div class="pt-2 border-t border-slate-800 flex items-center justify-between gap-2">
+            <button type="button" data-preview-favicon="fuse" class="text-[11px] text-pink-300 hover:underline">Preview Fuse Favicon</button>
+            <button type="button" data-platform-btn="fuse" class="px-3.5 py-2 rounded-xl fuse-gradient text-white text-xs font-semibold">Open Fuse Workspace</button>
+          </div>
+        </div>
+
+        <!-- Card 2: POTS -->
+        <div class="rounded-2xl bg-slate-900/90 border border-emerald-500/30 p-5 flex flex-col justify-between gap-4 hover:border-emerald-400/60 transition shadow-xl">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between gap-2">
+              <div class="flex items-center gap-2.5">
+                <div class="w-10 h-10 rounded-2xl pots-gradient flex items-center justify-center font-black text-white text-lg shadow">P</div>
+                <div>
+                  <h2 class="text-base font-bold text-white">Pots <span class="text-xs font-normal text-emerald-300">(OpenAI Dots Clone)</span></h2>
+                  <p class="text-[11px] text-slate-400">Powered by Tamo-6 Astra • Work Cloud</p>
+                </div>
+              </div>
+              <span class="text-[10px] font-mono-code px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">4,000+ Plugins</span>
+            </div>
+            <p class="text-xs text-slate-300 leading-relaxed">
+              Always-on autonomous work agents with dedicated Cloud Computers and optional time-bounded Local Computer Access. Summarizes background read-only research, pending approvals, and open questions in <strong>Activity View</strong> while carrying context seamlessly across <strong>TamoChat, Slack, and Microsoft Teams</strong>.
+            </p>
+            <ul class="space-y-1.5 text-xs text-slate-300">
+              <li class="flex items-center gap-2"><span class="text-emerald-400">●</span> <strong>Activity View:</strong> Read-only research, Approvals &amp; Open Questions</li>
+              <li class="flex items-center gap-2"><span class="text-emerald-400">●</span> <strong>Computers Tab:</strong> Live Cloud OS + 30m Local Computer Bridge</li>
+              <li class="flex items-center gap-2"><span class="text-emerald-400">●</span> <strong>Specialist Pots:</strong> Agent 365 governed roles (Sales, PRs, Legal)</li>
+              <li class="flex items-center gap-2"><span class="text-emerald-400">●</span> <strong>Plans:</strong> Included with TamoChat Pro &amp; Business Premium</li>
+            </ul>
+          </div>
+          <div class="pt-2 border-t border-slate-800 flex items-center justify-between gap-2">
+            <button type="button" data-preview-favicon="pots" class="text-[11px] text-emerald-300 hover:underline">Preview Pots Favicon</button>
+            <button type="button" data-platform-btn="pots" class="px-3.5 py-2 rounded-xl pots-gradient text-white text-xs font-semibold">Open Pots Workspace</button>
+          </div>
+        </div>
+
+        <!-- Card 3: GAWK BOT -->
+        <div class="rounded-2xl bg-zinc-950/95 border border-green-500/30 p-5 flex flex-col justify-between gap-4 hover:border-green-400/60 transition shadow-xl">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between gap-2">
+              <div class="flex items-center gap-2.5">
+                <div class="w-10 h-10 rounded-2xl bg-zinc-900 border border-green-500/60 flex items-center justify-center font-mono-code font-black text-green-400 text-lg shadow">G</div>
+                <div>
+                  <h2 class="text-base font-bold text-white">Gawk Bot <span class="text-xs font-normal text-green-400">(xAI Grok Bot Clone)</span></h2>
+                  <p class="text-[11px] text-zinc-400">Powered by Gawk 4.6 • TamoCursor Cloud</p>
+                </div>
+              </div>
+              <span class="text-[10px] font-mono-code px-2 py-0.5 rounded-full bg-green-500/20 text-green-300 border border-green-500/30">Shared Linux VM</span>
+            </div>
+            <p class="text-xs text-zinc-300 leading-relaxed">
+              Your team of always-on AI teammates that have their own cloud computer, sign in to your real apps, and never log off. Combines <strong>OAuth Connectors</strong>, <strong>Human Browser Sign-In Takeover (with WebAuthn Passkey forwarding)</strong>, and <strong>Secure Secret Requests</strong> across Personal and Team Bots.
+            </p>
+            <ul class="space-y-1.5 text-xs text-zinc-300">
+              <li class="flex items-center gap-2"><span class="text-green-400">●</span> <strong>Shared Cloud VM:</strong> Shared filesystem, terminal &amp; browser sessions</li>
+              <li class="flex items-center gap-2"><span class="text-green-400">●</span> <strong>3-Path Sign-In:</strong> OAuth + Human 2FA Takeover + Secret Vault</li>
+              <li class="flex items-center gap-2"><span class="text-green-400">●</span> <strong>Auto-Review Classifier:</strong> LLM approval gate on high-risk actions</li>
+              <li class="flex items-center gap-2"><span class="text-green-400">●</span> <strong>Bundled Plans:</strong> Ultra ($200), SuperGawk Heavy ($300), Teams ($120)</li>
+            </ul>
+          </div>
+          <div class="pt-2 border-t border-zinc-800 flex items-center justify-between gap-2">
+            <button type="button" data-preview-favicon="gawk" class="text-[11px] text-green-400 hover:underline">Preview Gawk Favicon</button>
+            <button type="button" data-platform-btn="gawk" class="px-3.5 py-2 rounded-xl bg-green-500 hover:bg-green-400 text-zinc-950 font-mono-code text-xs font-bold">Open Gawk Bot</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Detailed Architecture & Feature Parity Comparison Table -->
+      <div class="rounded-2xl bg-slate-900/80 border border-slate-800 p-5 sm:p-6 space-y-4">
+        <div class="flex flex-wrap items-center justify-between gap-2">
+          <div>
+            <h3 class="text-base sm:text-lg font-bold text-white">TamoAI Unified Cloud Architecture &amp; Feature Parity Matrix</h3>
+            <p class="text-xs text-slate-400">Every original feature from Meta Muse, OpenAI Dots, and xAI Grok Bot faithfully engineered inside one responsive platform.</p>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <button type="button" data-preview-favicon="hub" class="px-2.5 py-1 rounded-lg bg-slate-800 text-[11px] text-indigo-300 border border-indigo-500/30">Set Hub Favicon</button>
+            <button type="button" data-preview-favicon="fuse" class="px-2.5 py-1 rounded-lg bg-slate-800 text-[11px] text-pink-300 border border-pink-500/30">Set Fuse Favicon</button>
+            <button type="button" data-preview-favicon="pots" class="px-2.5 py-1 rounded-lg bg-slate-800 text-[11px] text-emerald-300 border border-emerald-500/30">Set Pots Favicon</button>
+            <button type="button" data-preview-favicon="gawk" class="px-2.5 py-1 rounded-lg bg-slate-800 text-[11px] text-green-300 border border-green-500/30">Set Gawk Favicon</button>
+          </div>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse text-xs">
+            <thead>
+              <tr class="border-b border-slate-800 text-slate-400 uppercase text-[10px] tracking-wider">
+                <th class="py-2.5 px-3">Capability</th>
+                <th class="py-2.5 px-3 text-pink-300">Fuse (Meta Muse Clone)</th>
+                <th class="py-2.5 px-3 text-emerald-300">Pots (OpenAI Dots Clone)</th>
+                <th class="py-2.5 px-3 text-green-400">Gawk Bot (xAI Grok Bot Clone)</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-800/70 text-slate-200">
+              <tr>
+                <td class="py-2.5 px-3 font-semibold text-white">Foundation Model</td>
+                <td class="py-2.5 px-3">Fuse Spark + Realtime Avatar Model</td>
+                <td class="py-2.5 px-3">Tamo-6 Astra (No manual model picker required)</td>
+                <td class="py-2.5 px-3">Gawk 4.6 Auto-Routed w/ Failover</td>
+              </tr>
+              <tr>
+                <td class="py-2.5 px-3 font-semibold text-white">Cloud Computer VM</td>
+                <td class="py-2.5 px-3">Fuse Secure VM (Per-user isolated Linux, 8GB RAM, Shared Browser)</td>
+                <td class="py-2.5 px-3">Per-Pot Cloud Computer + Time-Bounded Local Computer Access</td>
+                <td class="py-2.5 px-3">Shared Account Linux VM (Browser, Terminal &amp; Files shared across Bot Roster)</td>
+              </tr>
+              <tr>
+                <td class="py-2.5 px-3 font-semibold text-white">Permissions &amp; Safety</td>
+                <td class="py-2.5 px-3">Sentinel Governance (Read / Write / Ask First / Merchant Block Shield)</td>
+                <td class="py-2.5 px-3">Read-Only Background Research + Custom Approval Rules + Agent 365</td>
+                <td class="py-2.5 px-3">LLM Auto-Review Classifier + Human Browser Takeover for 2FA/SSO</td>
+              </tr>
+              <tr>
+                <td class="py-2.5 px-3 font-semibold text-white">Channels &amp; Hardware</td>
+                <td class="py-2.5 px-3">Web, Mobile, macOS Desktop Control, WhatsApp, Smart Glasses, Fuse Charm</td>
+                <td class="py-2.5 px-3">TamoChat Desktop/Web, Slack, Microsoft Teams (Shared Context)</td>
+                <td class="py-2.5 px-3">TamoCursor Desktop (macOS/Win/Linux) &amp; iOS/Android Companion</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- =================================================================== -->
+    <!-- VIEW 1: FUSE (META MUSE CLONE)                                      -->
+    <!-- =================================================================== -->
+    <section id="view-fuse" class="hidden space-y-5 view-transition">
+      <!-- Fuse Top Identity & Status Bar -->
+      <div class="rounded-2xl p-4 sm:p-5 bg-gradient-to-r from-blue-950/90 via-purple-950/90 to-pink-950/80 border border-purple-500/40 flex flex-wrap items-center justify-between gap-4 shadow-xl">
+        <div class="flex items-center gap-3.5">
+          <div class="relative">
+            <div class="w-12 h-12 rounded-2xl fuse-gradient flex items-center justify-center text-white font-black text-xl shadow-lg">F</div>
+            <span class="absolute -bottom-1 -right-1 w-3.5 h-3.5 rounded-full bg-emerald-400 border-2 border-slate-950"></span>
+          </div>
+          <div>
+            <div class="flex flex-wrap items-center gap-2">
+              <h2 id="fuse-agent-name-display" class="text-base sm:text-lg font-extrabold text-white">Nova (Fuse Spark)</h2>
+              <span id="fuse-style-display" class="text-[10px] px-2 py-0.5 rounded-full bg-pink-500/20 text-pink-200 border border-pink-400/30">Warm &amp; Proactive</span>
+              <span id="fuse-plan-display" class="text-[10px] px-2 py-0.5 rounded-full bg-blue-500/20 text-blue-200 border border-blue-400/30">Pro ($20/mo)</span>
+            </div>
+            <div class="flex flex-wrap items-center gap-2 text-xs text-slate-300 mt-1">
+              <span>Agent Email: <strong id="fuse-email-display" class="font-mono-code text-sky-300">nova.fuse@agent.tamo.ai</strong></span>
+              <button type="button" id="fuse-copy-email-btn" class="px-2 py-0.5 rounded bg-slate-900/80 hover:bg-slate-800 text-[10px] text-pink-300 border border-pink-500/30">Copy Email</button>
+              <button type="button" id="fuse-simulate-email-btn" class="px-2 py-0.5 rounded bg-purple-600/80 hover:bg-purple-500 text-[10px] text-white">Forward Test Receipt →</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Fuse Feature Sub-Navigation -->
+        <div class="flex flex-wrap items-center gap-1.5 bg-slate-950/80 p-1.5 rounded-xl border border-purple-500/30">
+          <button type="button" data-fuse-tab="chat">Chat &amp; Action Plan</button>
+          <button type="button" data-fuse-tab="avatar">Realtime Avatar Video</button>
+          <button type="button" data-fuse-tab="sentinel">Sentinel Permissions</button>
+          <button type="button" data-fuse-tab="commerce">Commerce &amp; Persona</button>
+          <button type="button" data-fuse-tab="charm">Fuse Charm &amp; Glasses</button>
+        </div>
+      </div>
+
+      <!-- Fuse Main Split Grid: Left (Agent Experience) + Right (Fuse Secure VM) -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
+        <!-- LEFT COLUMN (7 cols on lg) -->
+        <div class="lg:col-span-7 space-y-4">
+
+          <!-- Sub-Pane 1: Chat, Proactive Goals & Custom Tool Builder -->
+          <div id="fuse-pane-chat" class="rounded-2xl bg-slate-900/90 border border-slate-800 p-4 sm:p-5 space-y-4">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <div>
+                <h3 class="text-sm font-bold text-white">Proactive Action Plan &amp; Autonomous Goals</h3>
+                <p class="text-[11px] text-slate-400">Fuse tracks multi-step personal errands and builds custom Python tools when an integration doesn't exist.</p>
+              </div>
+              <button type="button" id="fuse-build-tool-btn" class="px-3 py-1.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-semibold transition shadow">
+                + Synthesize Custom Tool
+              </button>
+            </div>
+
+            <div id="fuse-goals-list" class="space-y-2.5"></div>
+
+            <!-- Conversational Stream -->
+            <div class="pt-2 border-t border-slate-800 space-y-3">
+              <div class="flex items-center justify-between text-[11px] text-slate-400">
+                <span>Synced across Fuse Web, iOS/Android, macOS Desktop &amp; WhatsApp</span>
+                <span class="text-emerald-400 font-mono-code">● Zero Ads • Transaction Fee Model</span>
+              </div>
+              <div id="fuse-chat-messages" class="h-64 overflow-y-auto space-y-2.5 pr-1"></div>
+              <form id="fuse-chat-form" class="flex gap-2">
+                <input id="fuse-chat-input" type="text" placeholder="Tell Fuse what errand, booking, bill, or form to handle..." class="flex-1 rounded-xl bg-slate-950 border border-slate-700 px-3.5 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-pink-500" />
+                <button type="submit" class="px-4 py-2 rounded-xl fuse-gradient text-white text-xs font-semibold shadow hover:opacity-95 transition">
+                  Delegate
+                </button>
+              </form>
+            </div>
+          </div>
+
+          <!-- Sub-Pane 2: Realtime Avatar Video Mode -->
+          <div id="fuse-pane-avatar" class="hidden rounded-2xl bg-slate-900/90 border border-purple-500/40 p-5 space-y-4">
+            <div class="flex items-center justify-between">
+              <div>
+                <h3 class="text-sm font-bold text-white">Fuse Realtime Avatar Model (Live Face-to-Face Video Session)</h3>
+                <p class="text-xs text-slate-400">Announced Sept 23 — low-latency neural video &amp; spatial voice representation of your personal agent.</p>
+              </div>
+              <span class="text-[10px] font-mono-code px-2.5 py-1 rounded-full bg-rose-500/20 text-rose-300 border border-rose-500/40">● LIVE 60FPS STREAM</span>
+            </div>
+            <div class="relative h-64 rounded-2xl bg-gradient-to-br from-indigo-950 via-purple-950 to-slate-950 border border-purple-500/30 flex flex-col items-center justify-center p-6 text-center overflow-hidden">
+              <div class="w-24 h-24 rounded-full fuse-gradient animate-pulse-ring flex items-center justify-center shadow-2xl shadow-pink-500/40">
+                <div class="w-16 h-16 rounded-full bg-slate-950/80 flex items-center justify-center text-2xl font-black text-white">N</div>
+              </div>
+              <p class="text-xs font-semibold text-pink-200 mt-4">"I have your Delta flight held at $318 on our shared browser and extracted your dental receipt."</p>
+              <p class="text-[11px] text-slate-400 mt-1">Latency: 42ms • Voice Style: Warm &amp; Proactive • Smart Glasses Audio Ready</p>
+            </div>
+          </div>
+
+          <!-- Sub-Pane 3: Sentinel Permissions System -->
+          <div id="fuse-pane-sentinel" class="hidden rounded-2xl bg-slate-900/90 border border-slate-800 p-5 space-y-4">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <div>
+                <h3 class="text-sm font-bold text-white">Sentinel Permissions &amp; Privacy Governance</h3>
+                <p class="text-xs text-slate-400">Governs which services Fuse can reach inside Fuse Secure VM, distinguishing strictly between Read and Write access.</p>
+              </div>
+              <span class="text-[10px] font-mono-code px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">Encrypted Credential Vault</span>
+            </div>
+            <div id="fuse-sentinel-list" class="grid grid-cols-1 sm:grid-cols-2 gap-2.5"></div>
+            <div class="p-3 rounded-xl bg-amber-950/40 border border-amber-500/40 text-xs text-amber-200 space-y-1">
+              <div class="font-bold">Merchant Agent Guardrail Notice (Amazon Retail Block Policy)</div>
+              <p class="text-[11px] text-amber-100/90">Amazon retail domains currently block automated third-party AI agent sessions under their Conditions of Use. Fuse automatically routes shopping tasks to approved Commerce Partners (Shopify, Best Buy, Walmart, Wayfair, Sephora, Instacart, Expedia) with Stripe Pass protection.</p>
+            </div>
+          </div>
+
+          <!-- Sub-Pane 4: Commerce Partners & Persona Customization -->
+          <div id="fuse-pane-commerce" class="hidden rounded-2xl bg-slate-900/90 border border-slate-800 p-5 space-y-4">
+            <h3 class="text-sm font-bold text-white">Customize Fuse Identity, Communication Style &amp; Plan Tier</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <div>
+                <label class="block text-[11px] text-slate-400 mb-1" for="fuse-custom-name-input">Agent Name</label>
+                <input id="fuse-custom-name-input" type="text" value="Nova" class="w-full rounded-xl bg-slate-950 border border-slate-700 px-3 py-2 text-xs text-white" />
+              </div>
+              <div>
+                <label class="block text-[11px] text-slate-400 mb-1" for="fuse-custom-style-select">Communication Style</label>
+                <select id="fuse-custom-style-select" class="w-full rounded-xl bg-slate-950 border border-slate-700 px-3 py-2 text-xs text-white">
+                  <option value="Warm & Proactive">Warm &amp; Proactive</option>
+                  <option value="Concise & Direct">Concise &amp; Direct</option>
+                  <option value="Analytical & Detailed">Analytical &amp; Detailed</option>
+                  <option value="Playful & Witty">Playful &amp; Witty</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-[11px] text-slate-400 mb-1" for="fuse-custom-tier-select">Subscription Tier</label>
+                <select id="fuse-custom-tier-select" class="w-full rounded-xl bg-slate-950 border border-slate-700 px-3 py-2 text-xs text-white">
+                  <option value="Free Tier ($0/mo)">Free Tier ($0/mo)</option>
+                  <option value="Pro ($20/mo)" selected>Pro ($20/mo)</option>
+                  <option value="Ultra ($100/mo)">Ultra ($100/mo)</option>
+                </select>
+              </div>
+            </div>
+            <button type="button" id="fuse-save-persona-btn" class="px-4 py-2 rounded-xl fuse-gradient text-white text-xs font-semibold">Save Agent Persona &amp; Update Inbox Address</button>
+
+            <div class="pt-3 border-t border-slate-800">
+              <h4 class="text-xs font-bold text-slate-200 mb-2">Verified Commerce &amp; Productivity Partners</h4>
+              <div class="flex flex-wrap gap-2 text-[11px]">
+                <span class="px-2.5 py-1 rounded-lg bg-slate-800 text-slate-200">Stripe</span>
+                <span class="px-2.5 py-1 rounded-lg bg-slate-800 text-slate-200">Shopify</span>
+                <span class="px-2.5 py-1 rounded-lg bg-slate-800 text-slate-200">Best Buy</span>
+                <span class="px-2.5 py-1 rounded-lg bg-slate-800 text-slate-200">Gap</span>
+                <span class="px-2.5 py-1 rounded-lg bg-slate-800 text-slate-200">Sephora</span>
+                <span class="px-2.5 py-1 rounded-lg bg-slate-800 text-slate-200">Walmart</span>
+                <span class="px-2.5 py-1 rounded-lg bg-slate-800 text-slate-200">Wayfair</span>
+                <span class="px-2.5 py-1 rounded-lg bg-slate-800 text-slate-200">Expedia</span>
+                <span class="px-2.5 py-1 rounded-lg bg-slate-800 text-slate-200">Instacart</span>
+                <span class="px-2.5 py-1 rounded-lg bg-slate-800 text-slate-200">GitHub</span>
+                <span class="px-2.5 py-1 rounded-lg bg-slate-800 text-slate-200">Notion</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sub-Pane 5: Fuse Charm Palm Device & Smart Glasses -->
+          <div id="fuse-pane-charm" class="hidden rounded-2xl bg-slate-900/90 border border-slate-800 p-5 space-y-4">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <div>
+                <h3 class="text-sm font-bold text-white">Fuse Charm Wearable &amp; Smart Glasses Bridge</h3>
+                <p class="text-xs text-slate-400">Palm-sized companion hardware for using Fuse away from your phone + macOS Desktop app control.</p>
+              </div>
+              <button type="button" id="fuse-charm-ping-btn" class="px-3 py-1.5 rounded-xl fuse-gradient text-white text-xs font-semibold">Ping Fuse Charm Device</button>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+              <div class="p-3.5 rounded-xl bg-slate-950 border border-purple-500/30 space-y-1">
+                <div class="text-pink-300 font-bold">Fuse Charm (Palm Device)</div>
+                <div class="text-slate-300">Battery: 94% • LTE-M Connected</div>
+                <div class="text-[11px] text-slate-400">Tap orb to delegate voice tasks without unlocking your phone.</div>
+              </div>
+              <div class="p-3.5 rounded-xl bg-slate-950 border border-purple-500/30 space-y-1">
+                <div class="text-sky-300 font-bold">Smart Glasses Wake Word</div>
+                <div class="text-slate-300">Wake Word: "Hey Fuse" (Active)</div>
+                <div class="text-[11px] text-slate-400">Streams live camera context to Fuse Secure VM.</div>
+              </div>
+              <div class="p-3.5 rounded-xl bg-slate-950 border border-purple-500/30 space-y-1">
+                <div class="text-emerald-300 font-bold">macOS App Control</div>
+                <div class="text-slate-300">Accessibility Bridge Ready</div>
+                <div class="text-[11px] text-slate-400">Allows Fuse to coordinate native Mac apps when authorized.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT COLUMN (5 cols on lg): FUSE SECURE VM LIVE SHARED BROWSER -->
+        <div class="lg:col-span-5 rounded-2xl bg-slate-900/95 border border-purple-500/40 p-4 sm:p-5 flex flex-col justify-between gap-4 shadow-2xl relative overflow-hidden vm-scanline">
+          <div class="space-y-3">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <div>
+                <div class="flex items-center gap-2">
+                  <span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
+                  <h3 class="text-sm font-bold text-white">Fuse Secure VM (Shared Cloud Computer)</h3>
+                </div>
+                <p class="text-[11px] text-slate-400 font-mono-code">Ubuntu 24.04 LTS • 4 vCPU • 8GB RAM • Persistent Storage</p>
+              </div>
+              <button type="button" id="fuse-takeover-btn" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-pink-600 text-white">
+                Intervene / Take Control
+              </button>
+            </div>
+
+            <div class="flex items-center justify-between">
+              <span id="fuse-vm-control-badge" class="text-[10px] font-mono-code px-2.5 py-0.5 rounded-full bg-purple-500/20 text-purple-300 border border-purple-500/40">
+                FUSE SPARK DRIVING SHARED BROWSER
+              </span>
+              <span class="text-[10px] text-slate-400">Zero-Knowledge Workspace Ready</span>
+            </div>
+
+            <!-- Browser Tab Switcher inside VM -->
+            <div class="flex flex-wrap gap-1.5 pt-1">
+              <button type="button" data-fuse-browser-page="expedia" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-[11px] text-slate-200">1. Expedia Flight ($318)</button>
+              <button type="button" data-fuse-browser-page="shopify" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-[11px] text-slate-200">2. Shopify Coffee Order</button>
+              <button type="button" data-fuse-browser-page="dental" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-[11px] text-slate-200">3. Dental Claim Form</button>
+              <button type="button" data-fuse-browser-page="toolbuilder" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-[11px] text-slate-200">4. Custom Tool Code</button>
+            </div>
+
+            <!-- Simulated Cloud Browser Address Bar -->
+            <div class="flex items-center gap-2 bg-slate-950 px-3 py-1.5 rounded-xl border border-slate-800">
+              <span class="text-emerald-400 text-xs">🔒</span>
+              <input id="fuse-vm-url" type="text" readonly value="https://www.expedia.com/Checkout/Flight-SFO-JFK-DL419" class="w-full bg-transparent text-[11px] font-mono-code text-slate-300 focus:outline-none" />
+            </div>
+
+            <!-- Live Viewport -->
+            <div id="fuse-vm-viewport" class="min-h-[210px]"></div>
+          </div>
+
+          <!-- Live VM Kernel & Sentinel Stream -->
+          <div class="pt-3 border-t border-slate-800 space-y-1.5">
+            <div class="flex items-center justify-between text-[10px] font-mono-code text-slate-400">
+              <span>FUSE SECURE VM AUDIT STREAM</span>
+              <span>MEM: 3.1 / 8.0 GB</span>
+            </div>
+            <div class="p-2.5 rounded-xl bg-slate-950 border border-slate-800 font-mono-code text-[10px] text-slate-300 space-y-1 max-h-28 overflow-y-auto">
+              <div>[09:41:04] sentinel: expedia.com -> [ASK_BEFORE_CHECKOUT]</div>
+              <div>[09:42:19] agent-inbox: Parsed PDF from nova.fuse@agent.tamo.ai</div>
+              <div>[09:43:51] tool-builder: Wrote /home/fuse/tools/lens_price_watcher.py</div>
+              <div>[09:44:10] merchant-guard: Blocked amazon.com automated session -> Rerouted to Best Buy Partner API</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =================================================================== -->
+    <!-- VIEW 2: POTS (OPENAI DOTS CLONE)                                    -->
+    <!-- =================================================================== -->
+    <section id="view-pots" class="hidden space-y-5 view-transition">
+      <!-- Pots Top Bar -->
+      <div class="rounded-2xl p-4 sm:p-5 bg-gradient-to-r from-emerald-950/90 via-teal-950/85 to-slate-900 border border-emerald-500/40 flex flex-wrap items-center justify-between gap-4 shadow-xl">
+        <div class="flex items-center gap-3.5">
+          <div class="w-12 h-12 rounded-2xl pots-gradient flex items-center justify-center text-white font-black text-xl shadow-lg">P</div>
+          <div>
+            <div class="flex flex-wrap items-center gap-2">
+              <h2 id="pots-active-title" class="text-base sm:text-lg font-extrabold text-white">Primary Work Pot — Executive &amp; Cross-Stack Orchestrator</h2>
+              <span class="text-[10px] font-mono-code px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">Tamo-6 Astra</span>
+            </div>
+            <p class="text-xs text-slate-300 mt-0.5">
+              Connects to 4,000+ apps • Synchronizes context across <strong>TamoChat, Slack &amp; Microsoft Teams</strong> • Aligned with <strong>Microsoft Agent 365</strong> governance
+            </p>
+          </div>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-2">
+          <span id="pots-local-access-badge" class="text-[10px] font-mono-code px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">
+            CLOUD COMPUTER ONLY (ISOLATED)
+          </span>
+          <button type="button" id="pots-toggle-local-btn" class="px-3 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-emerald-300 border border-emerald-500/40 text-xs font-semibold transition">
+            Grant 30m Local Computer Access
+          </button>
+        </div>
+      </div>
+
+      <!-- Pots 3-Column Enterprise Layout -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
+        <!-- COL 1 (3 cols on lg): Pot Roster & Specialist Pots -->
+        <div class="lg:col-span-3 rounded-2xl bg-slate-900/90 border border-slate-800 p-4 space-y-3">
+          <div class="flex items-center justify-between">
+            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400">Your Pots &amp; Specialists</h3>
+            <button type="button" id="pots-spawn-specialist-btn" class="text-[11px] font-semibold text-emerald-400 hover:underline">+ New Specialist</button>
+          </div>
+          <div id="pots-roster-list" class="space-y-2"></div>
+          <div class="p-3 rounded-xl bg-slate-950 border border-slate-800 text-[11px] text-slate-400 space-y-1">
+            <div class="font-semibold text-emerald-300">Work Cloud &amp; Agent Security</div>
+            <p>Each Pot operates on its own isolated Cloud Computer with dedicated credentials, OS, and browser.</p>
+          </div>
+        </div>
+
+        <!-- COL 2 (4 cols on lg): Multi-Channel Context Stream (TamoChat / Slack / Teams) -->
+        <div class="lg:col-span-4 rounded-2xl bg-slate-900/90 border border-slate-800 p-4 flex flex-col justify-between gap-4">
+          <div class="space-y-3">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <span class="text-xs font-bold text-white">Multi-Channel Context Handoff</span>
+              <div class="flex gap-1">
+                <button type="button" data-pots-channel="tamochat">TamoChat</button>
+                <button type="button" data-pots-channel="slack">Slack</button>
+                <button type="button" data-pots-channel="teams">MS Teams</button>
+              </div>
+            </div>
+            <p class="text-[11px] text-slate-400">Start a goal in TamoChat, review diffs in Slack, and approve redlines in Microsoft Teams without losing state.</p>
+            <div id="pots-channel-messages" class="h-80 overflow-y-auto space-y-2.5 pr-1"></div>
+          </div>
+
+          <form id="pots-chat-form" class="flex gap-2 pt-2 border-t border-slate-800">
+            <input id="pots-chat-input" type="text" placeholder="Delegate project, PR triage, or proposal update..." class="flex-1 rounded-xl bg-slate-950 border border-slate-700 px-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500" />
+            <button type="submit" class="px-3.5 py-2 rounded-xl pots-gradient text-white text-xs font-semibold">Send</button>
+          </form>
+        </div>
+
+        <!-- COL 3 (5 cols on lg): Activity View & Inspectable Cloud Computer -->
+        <div class="lg:col-span-5 rounded-2xl bg-slate-900/95 border border-emerald-500/40 p-4 sm:p-5 space-y-4 shadow-2xl">
+          <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800 pb-3">
+            <div class="flex items-center gap-1.5">
+              <button type="button" data-pots-pane="activity">Activity View</button>
+              <button type="button" data-pots-pane="computer">Computers (Inspect VM)</button>
+              <button type="button" data-pots-pane="governance">4,000+ App Plugins</button>
+            </div>
+            <span id="pots-pending-count" class="text-[10px] font-mono-code px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30">3 Pending</span>
+          </div>
+
+          <!-- Right Sub-Pane A: Activity View (Approvals + Open Questions + Read-Only Research) -->
+          <div id="pots-right-activity" class="space-y-4 max-h-[460px] overflow-y-auto pr-1">
+            <div class="space-y-2">
+              <h4 class="text-xs font-bold uppercase tracking-wider text-amber-300">Gated Approvals (Custom Rules &amp; Auto-Review)</h4>
+              <div id="pots-approvals-list" class="space-y-2"></div>
+            </div>
+
+            <div class="space-y-2 pt-2 border-t border-slate-800">
+              <h4 class="text-xs font-bold uppercase tracking-wider text-sky-300">Open Questions Surfaced by Pot</h4>
+              <div id="pots-questions-list" class="space-y-2"></div>
+            </div>
+
+            <div class="space-y-2 pt-2 border-t border-slate-800">
+              <h4 class="text-xs font-bold uppercase tracking-wider text-emerald-300">Proactive Background Research (Read-Only Mode)</h4>
+              <div id="pots-research-list" class="space-y-2"></div>
+            </div>
+          </div>
+
+          <!-- Right Sub-Pane B: Computers Tab (Inspectable Cloud Computer Desktop) -->
+          <div id="pots-right-computer" class="hidden space-y-3">
+            <div class="p-3 rounded-xl bg-slate-950 border border-slate-800 space-y-2">
+              <div class="flex items-center justify-between text-xs">
+                <span class="font-bold text-emerald-400">● Pot Cloud Computer Desktop (Profile → Computers)</span>
+                <span class="font-mono-code text-[10px] text-slate-400">16 GB RAM • 8 vCPU • Tamo-6 Astra OS</span>
+              </div>
+              <div class="p-3 rounded-lg bg-slate-900 border border-slate-800 font-mono-code text-[11px] text-slate-200 space-y-1.5">
+                <div class="text-emerald-400">$ pot-agent status --all-channels</div>
+                <div>✓ Read-Only Research Worker: Indexing 18 Gong transcripts &amp; Jira sprint board</div>
+                <div>✓ Browser Worker: Staging Google Slides deck "Acme_Corp_Q4_Enterprise.pptx"</div>
+                <div>✓ GitHub Worker: PR #418 branch `fix/ws-race-condition` verified (142/142 tests green)</div>
+                <div class="text-sky-300">✓ Work Cloud Local Bridge: Ready for explicit time-bounded mount</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Sub-Pane C: 4,000+ App Plugins & Agent 365 Governance -->
+          <div id="pots-right-governance" class="hidden space-y-3">
+            <div class="p-3.5 rounded-xl bg-slate-950 border border-slate-800 space-y-2">
+              <h4 class="text-xs font-bold text-white">Connected Enterprise Plugins (4,210 Available)</h4>
+              <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 text-[11px]">
+                <div class="p-2 rounded bg-slate-900 border border-slate-800 text-emerald-300">✓ Slack Enterprise</div>
+                <div class="p-2 rounded bg-slate-900 border border-slate-800 text-emerald-300">✓ Microsoft Teams</div>
+                <div class="p-2 rounded bg-slate-900 border border-slate-800 text-emerald-300">✓ Microsoft Agent 365</div>
+                <div class="p-2 rounded bg-slate-900 border border-slate-800 text-emerald-300">✓ GitHub &amp; Linear</div>
+                <div class="p-2 rounded bg-slate-900 border border-slate-800 text-emerald-300">✓ Salesforce &amp; HubSpot</div>
+                <div class="p-2 rounded bg-slate-900 border border-slate-800 text-emerald-300">✓ Snowflake &amp; BigQuery</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =================================================================== -->
+    <!-- VIEW 3: GAWK BOT (XAI GROK BOT CLONE)                               -->
+    <!-- =================================================================== -->
+    <section id="view-gawk" class="hidden space-y-5 view-transition">
+      <!-- Gawk Bot Top Telemetry & Security Notice Bar -->
+      <div class="rounded-2xl p-4 sm:p-5 bg-zinc-950 border border-green-500/50 flex flex-wrap items-center justify-between gap-4 shadow-2xl">
+        <div class="flex items-center gap-3.5">
+          <div class="w-12 h-12 rounded-2xl bg-zinc-900 border-2 border-green-500 flex items-center justify-center font-mono-code font-black text-green-400 text-xl">G</div>
+          <div>
+            <div class="flex flex-wrap items-center gap-2">
+              <h2 class="text-base sm:text-lg font-mono-code font-extrabold text-white">GAWK BOT // TAMOXSI CLOUD TEAMMATES</h2>
+              <span class="text-[10px] font-mono-code px-2 py-0.5 rounded bg-green-500/20 text-green-300 border border-green-500/40">GAWK 4.6 AUTO-ROUTED</span>
+              <span class="text-[10px] font-mono-code px-2 py-0.5 rounded bg-zinc-800 text-zinc-300">Sign In with TamoCursor</span>
+            </div>
+            <p class="text-xs text-zinc-400 mt-0.5">
+              Always-on AI teammates that have their own cloud computer, sign in to your tools like you do, and never log off.
+            </p>
+          </div>
+        </div>
+
+        <!-- Weekly Token Expenditure Meter -->
+        <div class="w-full sm:w-72 space-y-1 bg-zinc-900/90 p-2.5 rounded-xl border border-zinc-800">
+          <div class="flex items-center justify-between text-[10px] font-mono-code">
+            <span class="text-zinc-400">PLAN: SUPERGAWK HEAVY ($300/MO)</span>
+            <span class="text-amber-400">NO SPEND CAP</span>
+          </div>
+          <div class="w-full h-2 bg-zinc-800 rounded-full overflow-hidden">
+            <div id="gawk-token-quota-bar" class="h-full bg-gradient-to-r from-green-500 to-amber-500" style="width:74%"></div>
+          </div>
+          <div id="gawk-token-quota-text" class="text-[10px] font-mono-code text-zinc-300">14.8M / 20.0M Weekly Tokens (74%) • No Hard Cap</div>
+        </div>
+      </div>
+
+      <!-- Verbatim Shared VM Architecture Security Banner -->
+      <div class="p-3 rounded-xl bg-amber-950/30 border border-amber-500/40 flex flex-wrap items-center justify-between gap-2 text-xs">
+        <div class="font-mono-code text-amber-200">
+          <strong>SHARED CLOUD COMPUTER ARCHITECTURE:</strong> "All of your Bots share one cloud computer assigned to your user account. Files, browser sessions, and command line credentials on that computer are available across your Bot roster. Separate Bots are separate work surfaces, not separate security boundaries."
+        </div>
+      </div>
+
+      <!-- Gawk Bot 3-Column Engineering Layout -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
+        <!-- COL 1 (3 cols on lg): Bot Roster & Team Bots -->
+        <div class="lg:col-span-3 rounded-2xl bg-zinc-950 border border-zinc-800 p-4 space-y-3">
+          <div class="flex items-center justify-between">
+            <h3 class="text-xs font-mono-code font-bold uppercase text-zinc-400">Bot Roster (Shared VM)</h3>
+            <button type="button" id="gawk-spawn-bot-btn" class="text-[11px] font-mono-code font-bold text-green-400 hover:underline">+ Spawn Bot</button>
+          </div>
+          <div id="gawk-bot-roster" class="space-y-2"></div>
+        </div>
+
+        <!-- COL 2 (4 cols on lg): Active Bot Task & Command Stream -->
+        <div class="lg:col-span-4 rounded-2xl bg-zinc-950 border border-zinc-800 p-4 flex flex-col justify-between gap-4">
+          <div class="space-y-2.5">
+            <div id="gawk-active-bot-header" class="text-xs font-mono-code font-bold text-green-400">atlas-dev (Personal Bot)</div>
+            <div id="gawk-active-bot-task" class="text-[11px] text-zinc-400">Current Task: Refactoring Rust telemetry service</div>
+            <div id="gawk-chat-messages" class="h-80 overflow-y-auto space-y-2.5 pr-1 pt-2 border-t border-zinc-900"></div>
+          </div>
+
+          <form id="gawk-chat-form" class="flex gap-2 pt-2 border-t border-zinc-900">
+            <input id="gawk-chat-input" type="text" placeholder="Assign multi-step computer-use task to Bot..." class="flex-1 rounded-xl bg-zinc-900 border border-zinc-700 px-3 py-2 text-xs font-mono-code text-white placeholder-zinc-500 focus:outline-none focus:border-green-500" />
+            <button type="submit" class="px-3.5 py-2 rounded-xl bg-green-500 hover:bg-green-400 text-zinc-950 font-mono-code font-bold text-xs">Execute</button>
+          </form>
+        </div>
+
+        <!-- COL 3 (5 cols on lg): Shared Linux Cloud Computer (Screen, Terminal, 3-Path Auth, Auto-Review Classifier) -->
+        <div class="lg:col-span-5 rounded-2xl bg-zinc-950 border border-green-500/40 p-4 sm:p-5 space-y-4 shadow-2xl">
+          <div class="flex flex-wrap items-center justify-between gap-2 border-b border-zinc-800 pb-3">
+            <div class="flex flex-wrap gap-1.5">
+              <button type="button" data-gawk-surface="screen">VM Screen &amp; 2FA</button>
+              <button type="button" data-gawk-surface="auth">3-Path Sign-In</button>
+              <button type="button" data-gawk-surface="approvals">Auto-Review Gate</button>
+              <button type="button" data-gawk-surface="terminal">Shared Terminal</button>
+            </div>
+          </div>
+
+          <!-- Surface 1: Live Computer-Use Screen & Human Sign-In Takeover -->
+          <div id="gawk-surface-screen" class="space-y-3">
+            <div id="gawk-okta-takeover-card"></div>
+
+            <div class="p-3.5 rounded-xl bg-zinc-900 border border-zinc-800 font-mono-code text-xs space-y-2">
+              <div class="flex items-center justify-between text-[10px] text-zinc-400">
+                <span>DISPLAY :1 • X11 COMPUTER-USE STREAM (1920x1080)</span>
+                <span class="text-green-400">CURSOR @ (642, 318)</span>
+              </div>
+              <div class="p-3 rounded-lg bg-zinc-950 border border-zinc-800 space-y-1.5 text-[11px]">
+                <div class="text-sky-400">[Browser Session: app.hubspot.com &amp; github.com/tamoxsi]</div>
+                <div class="text-zinc-300">→ MouseClick(left, 642, 318) on "Run E2E Canary Checks"</div>
+                <div class="text-zinc-300">→ KeyType("cargo test --release --package edge-proxy")</div>
+                <div class="text-green-400">✓ 48 assertions passed in 4.12s. Preparing production rollout...</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Surface 2: 3-Path Tool Authentication Engine -->
+          <div id="gawk-surface-auth" class="hidden space-y-3">
+            <div class="p-3 rounded-xl bg-zinc-900 border border-zinc-800 space-y-1.5">
+              <div class="text-xs font-mono-code font-bold text-green-400">1. OAuth Connectors (Backend Token Storage)</div>
+              <p class="text-[11px] text-zinc-300">Tokens stay in TamoCursor's backend — the cloud computer never stores raw OAuth tokens. Connected: GitHub, Linear, Slack, Google Workspace.</p>
+            </div>
+            <div class="p-3 rounded-xl bg-zinc-900 border border-zinc-800 space-y-1.5">
+              <div class="text-xs font-mono-code font-bold text-amber-300">2. Human Sign-In Inside Agent Browser + WebAuthn Forwarding</div>
+              <p class="text-[11px] text-zinc-300">Bot hands you control of the VM for Okta SSO / 2FA. Session cookies persist across all Bots on your shared machine.</p>
+            </div>
+            <div class="p-3 rounded-xl bg-zinc-900 border border-zinc-800 space-y-2">
+              <div class="text-xs font-mono-code font-bold text-sky-300">3. Secure Secret Request (Masked Field)</div>
+              <div id="gawk-secrets-list" class="space-y-1.5"></div>
+              <div class="flex flex-wrap sm:flex-nowrap gap-1.5 pt-1">
+                <input id="gawk-secret-key-input" type="text" placeholder="SECRET_NAME" class="w-1/2 rounded bg-zinc-950 border border-zinc-700 px-2.5 py-1.5 text-xs font-mono-code text-white" />
+                <input id="gawk-secret-val-input" type="password" placeholder="Secret value..." class="w-1/2 rounded bg-zinc-950 border border-zinc-700 px-2.5 py-1.5 text-xs font-mono-code text-white" />
+                <button type="button" id="gawk-add-secret-btn" class="px-3 py-1.5 rounded bg-green-500 text-zinc-950 font-mono-code font-bold text-xs shrink-0">Save</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Surface 3: LLM Auto-Review Classifier & Approval Gate -->
+          <div id="gawk-surface-approvals" class="hidden space-y-3 max-h-[380px] overflow-y-auto pr-1">
+            <div class="text-[11px] text-zinc-400">
+              LLM-based Auto-Review Classifier gates high-risk actions (sending messages, publishing, purchases, deleting data, touching production, accepting legal terms).
+            </div>
+            <div id="gawk-approvals-list" class="space-y-2.5"></div>
+          </div>
+
+          <!-- Surface 4: Shared VM Filesystem & Terminal -->
+          <div id="gawk-surface-terminal" class="hidden space-y-2">
+            <div class="p-3.5 rounded-xl bg-zinc-900 border border-zinc-800 font-mono-code text-[11px] text-green-300 space-y-1">
+              <div class="text-zinc-500"># Shared across atlas-dev, hyperion-growth, valkyrie-support, team-sre-bot</div>
+              <div>tamocursor@gawk-vm:/workspace/shared$ ls -la</div>
+              <div class="text-zinc-300">drwxr-xr-x 6 tamocursorスタッフ 4096 Oct 25 00:12 .browser-cookies-shared</div>
+              <div class="text-zinc-300">-rwxr-xr-x 1 tamocursorスタッフ 2048 Oct 25 00:14 team_setup_bootstrap.sh</div>
+              <div class="text-zinc-300">drwxr-xr-x 4 tamocursorスタッフ 4096 Oct 25 00:15 edge-proxy-rs/</div>
+              <div class="text-sky-300">Static Egress IP: 198.51.100.42 (Enterprise Allowlisted)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Responsive Footer -->
+  <footer class="max-w-[1440px] mx-auto px-3 sm:px-6 py-6 border-t border-slate-800/80 text-xs text-slate-400 flex flex-wrap items-center justify-between gap-3">
+    <div class="flex items-center gap-2">
+      <span class="font-bold text-white">TamoAI Cloud Inc.</span>
+      <span>•</span>
+      <span>Unified Parent Platform for Fuse, Pots &amp; Gawk Bot</span>
+    </div>
+    <div class="flex flex-wrap items-center gap-3">
+      <span>Netlify Static &amp; Edge Ready</span>
+      <span>•</span>
+      <span>Dynamic SVG Favicons</span>
+      <span>•</span>
+      <span>100% Responsive UI</span>
+    </div>
+  </footer>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
